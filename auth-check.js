@@ -14,8 +14,13 @@
         
         if (!user) {
             // Se não estiver logado, redirecionar para a página de login
-            console.log('Usuário não autenticado, redirecionando para login...');
-            window.location.href = '/login.html';
+            console.log("Usuário não autenticado, redirecionando para login...");
+            // Adicionar um pequeno atraso para garantir que o Netlify Identity tenha tempo de inicializar
+            setTimeout(() => {
+                if (!netlifyIdentity.currentUser()) {
+                    window.location.href = '/login.html';
+                }
+            }, 100);
             return false;
         }
         

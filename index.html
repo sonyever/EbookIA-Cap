@@ -410,7 +410,12 @@
             
             if (!user) {
                 // Se não estiver logado, redirecionar para login
-                window.location.href = '/login.html';
+                // Adicionar um pequeno atraso para garantir que o Netlify Identity tenha tempo de inicializar
+                setTimeout(() => {
+                    if (!netlifyIdentity.currentUser()) {
+                        window.location.href = '/login.html';
+                    }
+                }, 100);
             } else {
                 // Adicionar botão de logout
                 addLogoutButton(user);
