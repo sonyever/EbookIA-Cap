@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>O Futuro da IA e dos Prompts | Ebook Futurista</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
     <style>
         :root {
             --primary: #00f7ff;
@@ -403,6 +404,103 @@
     </div>
 
     <script>
+        // Verificar autenticação ao carregar a página
+        window.addEventListener('DOMContentLoaded', function() {
+            const user = netlifyIdentity.currentUser();
+            
+            if (!user) {
+                // Se não estiver logado, redirecionar para login
+                window.location.href = '/login.html';
+            } else {
+                // Adicionar botão de logout
+                addLogoutButton(user);
+            }
+        });
+
+        // Função para adicionar botão de logout
+        function addLogoutButton(user) {
+            const userInfoContainer = document.createElement('div');
+            userInfoContainer.id = 'user-info-container';
+            userInfoContainer.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: rgba(10, 10, 26, 0.95);
+                backdrop-filter: blur(10px);
+                padding: 1rem 1.5rem;
+                border-radius: 10px;
+                border: 1px solid rgba(0, 247, 255, 0.3);
+                box-shadow: 0 4px 15px rgba(0, 247, 255, 0.2);
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+            `;
+
+            const userInfo = document.createElement('div');
+            userInfo.style.cssText = `
+                color: #f0f8ff;
+                font-size: 0.9rem;
+            `;
+            userInfo.innerHTML = `
+                <div style="opacity: 0.7; font-size: 0.8rem;">Logado como:</div>
+                <div style="font-weight: 600; color: #00f7ff;">${user.email}</div>
+            `;
+
+            const logoutBtn = document.createElement('button');
+            logoutBtn.textContent = 'Sair';
+            logoutBtn.style.cssText = `
+                background: linear-gradient(135deg, #00f7ff, #ff00c8);
+                border: none;
+                padding: 0.5rem 1rem;
+                border-radius: 5px;
+                color: #0a0a1a;
+                font-weight: bold;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-size: 0.9rem;
+            `;
+
+            logoutBtn.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-2px)';
+                this.style.boxShadow = '0 4px 10px rgba(0, 247, 255, 0.4)';
+            });
+
+            logoutBtn.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+                this.style.boxShadow = 'none';
+            });
+
+            logoutBtn.addEventListener('click', function() {
+                if (confirm('Deseja realmente sair?')) {
+                    netlifyIdentity.logout();
+                }
+            });
+
+            userInfoContainer.appendChild(userInfo);
+            userInfoContainer.appendChild(logoutBtn);
+            document.body.appendChild(userInfoContainer);
+
+            // Responsividade para mobile
+            if (window.innerWidth <= 768) {
+                userInfoContainer.style.cssText += `
+                    top: 10px;
+                    right: 10px;
+                    left: 10px;
+                    padding: 0.8rem 1rem;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                `;
+                userInfo.style.textAlign = 'center';
+                logoutBtn.style.width = '100%';
+            }
+        }
+
+        // Listener para logout
+        netlifyIdentity.on('logout', function() {
+            window.location.href = '/login.html';
+        });
+
         // Adicionar efeito de hover nas seções disponíveis
         document.querySelectorAll('.chapter-item.available').forEach(item => {
             item.addEventListener('mouseenter', function() {

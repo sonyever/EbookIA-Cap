@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | O Futuro da IA e dos Prompts</title>
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <style>
+        :root {
+            --primary: #00f7ff;
+            --secondary: #ff00c8;
+            --accent: #00ff9d;
+            --dark: #0a0a1a;
+            --darker: #050510;
+            --light: #f0f8ff;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --glow-primary: 0 0 10px rgba(0, 247, 255, 0.7),
+                         0 0 20px rgba(0, 247, 255, 0.5),
+                         0 0 30px rgba(0, 247, 255, 0.3);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--darker), var(--dark));
+            color: var(--light);
+            line-height: 1.6;
+            padding: 0;
+            overflow-x: hidden;
+            background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Efeitos futuristas de fundo */
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .grid-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(to right, rgba(0, 247, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(0, 247, 255, 0.05) 1px, transparent 1px);
+            background-size: 20px 20px;
+            perspective: 1000px;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.2;
+            filter: blur(60px);
+        }
+
+        .shape:nth-child(1) {
+            width: 500px;
+            height: 500px;
+            background: var(--primary);
+            top: -200px;
+            left: -200px;
+            animation: float 15s ease-in-out infinite;
+        }
+
+        .shape:nth-child(2) {
+            width: 400px;
+            height: 400px;
+            background: var(--secondary);
+            bottom: -150px;
+            right: -150px;
+            animation: float 18s ease-in-out infinite reverse;
+        }
+
+        .shape:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            background: var(--accent);
+            top: 50%;
+            left: 70%;
+            animation: float 12s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-20px, 20px) rotate(5deg); }
+            50% { transform: translate(10px, -15px) rotate(-5deg); }
+            75% { transform: translate(15px, 10px) rotate(3deg); }
+        }
+
+        /* Container de login */
+        .login-container {
+            max-width: 450px;
+            width: 90%;
+            background: rgba(10, 10, 26, 0.85);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 50px rgba(0, 247, 255, 0.3),
+                        0 0 100px rgba(255, 0, 200, 0.2);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .ebook-tag {
+            display: inline-block;
+            padding: 0.4rem 1rem;
+            background: rgba(0, 247, 255, 0.1);
+            border: 1px solid var(--primary);
+            border-radius: 20px;
+            color: var(--primary);
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+            text-shadow: var(--glow-primary);
+        }
+
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 0.5rem;
+        }
+
+        .login-content {
+            margin-top: 2rem;
+        }
+
+        .info-message {
+            background: rgba(0, 247, 255, 0.1);
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 1rem;
+            background: var(--gradient);
+            border: none;
+            border-radius: 10px;
+            color: var(--dark);
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(0, 247, 255, 0.3);
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 247, 255, 0.5);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        .signup-button {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 0, 200, 0.2);
+            border: 1px solid var(--secondary);
+            border-radius: 10px;
+            color: var(--light);
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 1rem;
+        }
+
+        .signup-button:hover {
+            background: rgba(255, 0, 200, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            margin: 1.5rem 0;
+            opacity: 0.6;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+        }
+
+        .divider span {
+            padding: 0 1rem;
+            font-size: 0.9rem;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .back-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-link a:hover {
+            text-shadow: var(--glow-primary);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 2rem 1.5rem;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-effects">
+        <div class="grid-lines"></div>
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+    </div>
+
+    <div class="login-container">
+        <div class="login-header">
+            <div class="ebook-tag">Acesso Restrito</div>
+            <h1>Bem-vindo</h1>
+            <p class="subtitle">O Futuro da IA e dos Prompts</p>
+        </div>
+
+        <div class="login-content">
+            <div class="info-message">
+                Para acessar o conteúdo completo do ebook, você precisa fazer login ou criar uma conta.
+            </div>
+
+            <button class="login-button" id="loginBtn">
+                Fazer Login
+            </button>
+
+            <div class="divider">
+                <span>ou</span>
+            </div>
+
+            <button class="signup-button" id="signupBtn">
+                Criar Conta
+            </button>
+
+            <div class="loading" id="loading">
+                Carregando...
+            </div>
+
+            <div class="back-link">
+                <a href="index.html">← Voltar para página inicial</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Inicializar Netlify Identity
+        const netlifyIdentity = window.netlifyIdentity;
+
+        // Verificar se o usuário já está logado
+        window.addEventListener('DOMContentLoaded', () => {
+            const user = netlifyIdentity.currentUser();
+            if (user) {
+                // Se já estiver logado, redirecionar para index
+                window.location.href = 'index.html';
+            }
+        });
+
+        // Botão de login
+        document.getElementById('loginBtn').addEventListener('click', () => {
+            netlifyIdentity.open('login');
+        });
+
+        // Botão de cadastro
+        document.getElementById('signupBtn').addEventListener('click', () => {
+            netlifyIdentity.open('signup');
+        });
+
+        // Listener para quando o usuário faz login
+        netlifyIdentity.on('login', user => {
+            console.log('Login realizado:', user);
+            document.getElementById('loading').classList.add('active');
+            // Redirecionar para a página inicial após login
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        });
+
+        // Listener para quando o usuário faz logout
+        netlifyIdentity.on('logout', () => {
+            console.log('Logout realizado');
+            window.location.href = 'login.html';
+        });
+
+        // Fechar o modal automaticamente após login/signup
+        netlifyIdentity.on('close', () => {
+            console.log('Modal fechado');
+        });
+    </script>
+</body>
+</html>
+
