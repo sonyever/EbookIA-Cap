@@ -8,43 +8,22 @@
         return;
     }
 
-    // Função para verificar autenticação
-    function checkAuth() {
-        const user = netlifyIdentity.currentUser();
-        
+    // Aguarda o Netlify Identity inicializar antes de verificar autenticação
+    // O evento 'init' dispara após a inicialização completa, incluindo restauração da sessão
+    netlifyIdentity.on('init', function(user) {
         if (!user) {
-            // Se não estiver logado, redirecionar para a página de login
             console.log("Usuário não autenticado, redirecionando para login...");
-            // Adicionar um pequeno atraso para garantir que o Netlify Identity tenha tempo de inicializar
-            setTimeout(() => {
-                if (!netlifyIdentity.currentUser()) {
-                    window.location.href = '/login.html';
-                }
-            }, 100);
-            return false;
+            window.location.href = '/login.html';
+        } else {
+            console.log('Usuário autenticado:', user.email);
+            addLogoutButton(user);
         }
-        
-        console.log('Usuário autenticado:', user.email);
-        return true;
-    }
-
-    // Verificar autenticação quando a página carregar
-    window.addEventListener('DOMContentLoaded', function() {
-        checkAuth();
     });
 
     // Listener para logout
     netlifyIdentity.on('logout', function() {
         console.log('Logout detectado, redirecionando...');
         window.location.href = '/login.html';
-    });
-
-    // Adicionar botão de logout se o usuário estiver autenticado
-    window.addEventListener('DOMContentLoaded', function() {
-        const user = netlifyIdentity.currentUser();
-        if (user) {
-            addLogoutButton(user);
-        }
     });
 
     // Função para adicionar botão de logout
