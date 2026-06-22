@@ -404,20 +404,11 @@
     </div>
 
     <script>
-        // Verificar autenticação ao carregar a página
-        window.addEventListener('DOMContentLoaded', function() {
-            const user = netlifyIdentity.currentUser();
-            
+        // Aguarda o Netlify Identity inicializar antes de verificar autenticação
+        netlifyIdentity.on('init', function(user) {
             if (!user) {
-                // Se não estiver logado, redirecionar para login
-                // Adicionar um pequeno atraso para garantir que o Netlify Identity tenha tempo de inicializar
-                setTimeout(() => {
-                    if (!netlifyIdentity.currentUser()) {
-                        window.location.href = '/login.html';
-                    }
-                }, 100);
+                window.location.href = '/login.html';
             } else {
-                // Adicionar botão de logout
                 addLogoutButton(user);
             }
         });
