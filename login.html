@@ -331,9 +331,9 @@
         // Inicializar Netlify Identity
         const netlifyIdentity = window.netlifyIdentity;
 
-        // Verificar se o usuário já está logado
-        window.addEventListener('DOMContentLoaded', () => {
-            const user = netlifyIdentity.currentUser();
+                // Verificar se o usuário já está logado
+        netlifyIdentity.on('init', user => {
+
             if (user) {
                 // Se já estiver logado, redirecionar para index
                 window.location.href = 'index.html';
